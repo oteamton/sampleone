@@ -37,6 +37,7 @@ const Login: React.FC = () => {
       <Link to="/">
         <button>Back</button>
       </Link>
+      <button onClick={handleColorModeToggle}>Dark Mode</button>
       <h2>Login</h2>
       <input
         type="text"
@@ -53,7 +54,6 @@ const Login: React.FC = () => {
       <button onClick={handleLogin}>Login</button>
       {result && <p>{result}</p>}
 
-      <button onClick={handleColorModeToggle}>Toggle Dark Mode</button>
     </div>
   );
 };

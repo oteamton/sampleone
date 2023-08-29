@@ -43,6 +43,7 @@ const Register: React.FC = () => {
             <Link to="/">
             <button>Back</button>
             </Link>
+            <button onClick={handleColorModeToggle}>{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
             <h2>Register</h2>
             <input
                 type="text"
@@ -64,9 +65,6 @@ const Register: React.FC = () => {
             />
             <button onClick={handleRegister}>Register</button>
             {result && <p>{result}</p>}
-
-            <Link to="/">Back to Home</Link>
-            <button onClick={handleColorModeToggle}>{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
 
             <ToastContainer />
         </div>
