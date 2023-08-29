@@ -1,9 +1,30 @@
+:root {
+    /* Light mode colors  */
+    --primary-color: #007bff;
+    --background-color: #f8f9fa;
+    --text-color: #212529;
+
+    /* Dark mode colors */
+    --primary-color-dark: #61dafb;
+    --background-color-dark: #343a40;
+    --text-color-dark: #f8f9fa;
+}
+
+/* Default styles for light mode */
 .register-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+/* Default styles for dark mode */
+.register-container.dark {
+    background-color: var(--background-color-dark);
+    color: var(--text-color-dark);
 }
 
 .register-container input{
@@ -12,4 +33,12 @@
 
 .register-container h2{
     margin-bottom: 20px;
+}
+
+.register-container button{
+    margin-top: 20px;
+}
+
+.register-container p{
+    margin-top: 10px;
 }

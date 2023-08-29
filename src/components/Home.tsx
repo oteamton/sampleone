@@ -1,17 +1,18 @@
 import React from 'react';
-import {
-    Link
-} from 'react-router-dom'
+import { Link } from 'react-router-dom'
+import './styles/Home.css'
 const Home: React.FC = () => {
   return (
-    <div>
+    <div className="hero-section">
       <h2>Welcome to the Home Page!</h2>
-      <Link to="/register">
-        <button>Go to Register</button>
-      </Link>
-      <Link to="/login">
-        <button>Go to Login</button>
-      </Link>
+      <div className="cta-buttons">
+        <Link to="/register">
+          <button className="cta-button">Sign Up</button>
+        </Link>
+        <Link to="/login">
+          <button className="cta-button">Log In</button>
+        </Link>
+      </div>
     </div>
   );
 };

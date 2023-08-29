@@ -1,6 +1,9 @@
 import axios from "axios";
 import React, {useState} from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import './styles/Register.css';
+import { Link } from 'react-router-dom';
 
 const Register: React.FC = () => {
         const [username, setUsername] = useState('');
@@ -8,6 +11,11 @@ const Register: React.FC = () => {
         const [email, setEmail] = useState('');
         const [result, setResult] = useState('');
         const [flashMessage, setFlashMessage] = useState('');
+        const [darkMode, setDarkMode] = useState(false);
+
+        const handleColorModeToggle = () => {
+            setDarkMode(!darkMode);
+        }
     const handleRegister = async () => {
         // Call API
         try{ 
@@ -31,7 +39,10 @@ const Register: React.FC = () => {
     };
 
     return (
-        <div>
+        <div className={`register-container ${darkMode ? 'dark' : ''}`}>
+            <Link to="/">
+            <button>Back</button>
+            </Link>
             <h2>Register</h2>
             <input
                 type="text"
@@ -53,6 +64,11 @@ const Register: React.FC = () => {
             />
             <button onClick={handleRegister}>Register</button>
             {result && <p>{result}</p>}
+
+            <Link to="/">Back to Home</Link>
+            <button onClick={handleColorModeToggle}>{darkMode ? 'Light Mode' : 'Dark Mode'}</button>
+
+            <ToastContainer />
         </div>
     );
 };

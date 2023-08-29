@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import './styles/Login.css';
+import { Link } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [result, setResult] = useState('');
+  const [result, setResult] = useState(''); 
+  const [flashMessage, setFlashMessage] = useState('');
+  const [darkMode, setDarkMode] = useState(false);
+
+  const handleColorModeToggle = () => {
+    setDarkMode(!darkMode);
+}
   const handleLogin = async () => {
     try {
+      setResult('');
+
       const response = await axios.post('http://localhost:5000/login', {
         username,
         password,
@@ -14,15 +24,19 @@ const Login: React.FC = () => {
       const result = response.data.result;
       console.log(response.data); // Handle authentication logic
       // Or update a state variable to render to JSX code
-      setResult('Login successful');
+      setResult(result);
+      setFlashMessage('');
     } catch (error) {
       console.error('Error during login:', error);
-      setResult('Login failed');
+      setResult(result);
     }
   };
 
   return (
-    <div>
+    <div className={`login-container ${darkMode ? 'dark' : ''}`}>
+      <Link to="/">
+        <button>Back</button>
+      </Link>
       <h2>Login</h2>
       <input
         type="text"
@@ -38,6 +52,8 @@ const Login: React.FC = () => {
       />
       <button onClick={handleLogin}>Login</button>
       {result && <p>{result}</p>}
+
+      <button onClick={handleColorModeToggle}>Toggle Dark Mode</button>
     </div>
   );
 };
