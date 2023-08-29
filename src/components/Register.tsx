@@ -20,21 +20,27 @@ const Register: React.FC = () => {
         // Call API
         try{ 
             setResult(''); // Clear result before making API call
+            setFlashMessage('');
 
             const response = await axios.post('http://localhost:5000/register',{
                 username,
                 password,
                 email,
             });
+            
+            // Display result
+            const result = response.data.message;
             console.log(response.data);
-            // Display result success
-            setResult('Registration successful');
-            setFlashMessage('');
+            setResult(result);
+            
         } catch (error) {
-            // Handle any error
+            if (error.response && error.response.data) {
+                const errorMessage = error.response.data.message;
+                setResult(errorMessage);
+            } else {
             console.error("Error during registration:", error);
-            // Display result error
-            setResult("Registration failed");
+            setResult('Registration failed');
+            }   
         }
     };
 
