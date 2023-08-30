@@ -46,12 +46,6 @@ const Register: React.FC = () => {
                     console.log('Status Code:', status);
                     console.log('Response Data:', data);
 
-                    // interface ErrorResponse{
-                    //     error: string;
-                    // }
-
-                    // const errorResponse = data as ErrorResponse;
-
                     switch (status) {
                         case 400: setResult('All fields are required');
                             break;
