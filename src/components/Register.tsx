@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React, {useState} from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -32,15 +32,40 @@ const Register: React.FC = () => {
             const result = response.data.message;
             console.log(response.data);
             setResult(result);
+
+            
             
         } catch (error) {
-            if (error.response && error.response.data) {
-                const errorMessage = error.response.data.message;
-                setResult(errorMessage);
-            } else {
             console.error("Error during registration:", error);
-            setResult('Registration failed');
-            }   
+            setResult('');
+
+            if (axios.isAxiosError(error)) {
+                const axiosError = error as AxiosError;
+                if (axiosError.response) {
+                    const { status, data } = axiosError.response;
+                    console.log('Status Code:', status);
+                    console.log('Response Data:', data);
+
+                    // interface ErrorResponse{
+                    //     error: string;
+                    // }
+
+                    // const errorResponse = data as ErrorResponse;
+
+                    switch (status) {
+                        case 400: setResult('All fields are required');
+                            break;
+                        case 409:
+                            // Handle the casse of username/email already exists
+                            const { error: conflictError } = data as {error: string};
+                            setResult(conflictError);
+                            break;
+                        default: setResult(status + ' ' + JSON.stringify(data));
+                            break;
+                    }
+                }  
+            }
+            
         }
     };
 
