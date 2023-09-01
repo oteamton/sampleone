@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import './styles/Login.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login: React.FC = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +10,7 @@ const Login: React.FC = () => {
   const [flashMessage, setFlashMessage] = useState('');
   const [darkMode, setDarkMode] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Set to true when user logs in
+  const navigate = useNavigate();
 
   const handleColorModeToggle = () => {
     setDarkMode(!darkMode);
@@ -29,11 +30,36 @@ const handleLogin = async () => {
     setResult(result);
     setFlashMessage('');
 
-    // Update login state
-    setIsLoggedIn(true);
+    // Display navigate to dashboard
+    setTimeout(() => {
+      setResult('');
+      // Update login state
+      setIsLoggedIn(true);
+      navigate('/Dashboard');
+    }, 1000); // 1 second
   } catch (error) {
       console.error('Error during login:', error);
       setResult('');
+        if (axios.isAxiosError(error)) {
+          const axiosError = error as AxiosError;
+          if (axiosError.response) {
+              const { status, data } = axiosError.response;
+              console.log('Status Code:', status);
+              console.log('Response Data:', data);
+
+              switch (status) {
+                  case 400: setResult('Please fill in username and password.');
+                      break;
+                  case 401:
+                      setResult('Incorrect password.');
+                      break;
+                  case 404: setResult('No user found. Please sign up.');
+                      break;
+                  default: setResult(status + ' ' + JSON.stringify(data));
+                      break;
+              }
+          }  
+        }
     }
   };
 
@@ -58,7 +84,7 @@ const handleLogin = async () => {
       />
 
       {isLoggedIn ? (
-        <Link to="/">
+        <Link to="/Login">
           <button>Logout</button>
         </Link>
       ) : (<button onClick={handleLogin}>Login</button>)}
